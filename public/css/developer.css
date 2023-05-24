@@ -1,0 +1,14 @@
+.formError{ color: red;}
+
+#loading-image{
+    position: absolute;
+    z-index: 100;
+    opacity: 0.8;
+    width: 379px;
+    margin-left: -1px;
+}
+
+#click_here{
+    line-height: 61px;
+    color: #f29d03;
+}
