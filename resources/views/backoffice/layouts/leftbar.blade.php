@@ -59,6 +59,8 @@
 
     </li>
 
+    test
+
     <li class="nav-item" id="leftContactEnquiry">
 
       <a class="nav-link" href="{{ url('admin/contact-list') }}">
