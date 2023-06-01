@@ -347,6 +347,13 @@ Route::get('/admin/dashboard', [Dashboard::class, 'index']);
     /*------------------- user route ------------------*/
 
       Route::get('/admin/users-list', [Users::class, 'index']);
+  
+      Route::get('/admin/create-lead', [Users::class, 'createLead']);
+
+
+
+
+      
 
       Route::get('/admin/propertyenquiry-list', [Users::class, 'propertyEnquiry']);
 

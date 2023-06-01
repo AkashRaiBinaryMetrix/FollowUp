@@ -30,6 +30,25 @@ class Users extends Controller
          return view('admin.users.index',['aTotalData'=>$aListCount,'aLists'=>$aListData]);
      }
 
+     public function createLead(Request $request){
+        /*---------------------- get per page paging record show ------------------------------*/
+           $iPerPagePagination  = perPagePaging();
+        /*---------------------- get per page paging record show ------------------------------*/
+
+         /*-------------- count data------------------*/
+           $aListCount = DB::table('leads')
+                            ->orderBy('id','desc')
+                            ->count();
+         /*-------------- count data------------------*/
+
+         /*-------------- get data------------------*/
+           $aListData = DB::table('leads')
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+         /*-------------- get data------------------*/
+         return view('admin.leads.index',['aTotalData'=>$aListCount,'aLists'=>$aListData]);
+     }
+
 
       public function saveUsersList(Request $request){
          $post = $request->input();

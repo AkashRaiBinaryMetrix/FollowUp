@@ -35,6 +35,18 @@
 
     </li>
 
+    <li class="nav-item" id="leftUsers">
+
+      <a class="nav-link" href="{{ url('admin/create-lead') }}">
+
+        <i class="fa fa-address-book"></i>
+
+        <span class="menu-title" style="margin: 5px;">Create Lead</span>
+
+      </a>
+
+    </li>
+
     <!-- <li class="nav-item" id="leftPropertyEnquiry">
 
       <a class="nav-link" href="{{ url('admin/propertyenquiry-list') }}">
