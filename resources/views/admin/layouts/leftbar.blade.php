@@ -47,6 +47,30 @@
 
     </li>
 
+    <li class="nav-item" id="leftUsers">
+
+      <a class="nav-link" href="{{ url('admin/assign-leads') }}">
+
+        <i class="fa fa-address-book"></i>
+
+        <span class="menu-title" style="margin: 5px;">Assign Lead</span>
+
+      </a>
+
+    </li>
+
+    <li class="nav-item" id="leftUsers">
+
+      <a class="nav-link" href="{{ url('admin/view-assign-leads') }}">
+
+        <i class="fa fa-address-book"></i>
+
+        <span class="menu-title" style="margin: 5px;">View Assigned Leads</span>
+
+      </a>
+
+    </li>
+
     <!-- <li class="nav-item" id="leftPropertyEnquiry">
 
       <a class="nav-link" href="{{ url('admin/propertyenquiry-list') }}">

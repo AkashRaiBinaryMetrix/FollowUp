@@ -15,77 +15,12 @@
 
           <div class="card-body">
 
-            <h4 class="card-title">Manage Leads List</h4>
+            <h4 class="card-title">View Assigned Leads List</h4>
 
-            <button style="float: right;margin-top: -38px;border-radius: 6px;border-color: darkolivegreen;" data-toggle="modal" data-target="#myModal">Add New Lead</button>
+  
+           
 
-            <button style="float: right;margin-top: -38px;border-radius: 6px;border-color: darkolivegreen;margin-right: 139px;" data-toggle="modal" data-target="#myModalImport">Import Leads</button>
-
-            <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Add New Leads</h4>
-        </div>
-        <div class="modal-body">
-          <form action="{{url('admin/save-lead-list')}}" method="post">
-            {{ csrf_field() }}
-            <div class="form-group">
-              <label for="email">Name:</label>
-              <input type="text" name="lead_name" class="form-control" id="email" required>
-            </div>
-            <div class="form-group">
-              <label for="pwd">Mobile:</label>
-              <input type="number" name="lead_mobile" class="form-control" id="pwd" required>
-            </div>
-            <div class="form-group">
-              <label for="pwd">Other Details:</label>
-              <input type="text" name="lead_other_details" class="form-control" id="other_details" >
-            </div>
-            <button type="submit" style="border-color: #f2c103 !important;background:#f2c103 !important" name="btnSubmit" class="btn btn-default">Submit</button>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
-
-  <div class="modal fade" id="myModalImport" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Import Leads</h4>
-        </div>
-        <div class="modal-body">
-          <form action="{{url('admin/upload-lead-list')}}" method="post" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            <div class="form-group">
-              <label for="email">Import excel file:</label>
-              <input type="file" name="file" class="form-control" id="email" >
-            </div>
-            <button type="submit" style="border-color: #f2c103 !important;background:#f2c103 !important" name="btnSubmit" class="btn btn-default">Submit</button>
-            <div class="form-group">
-            </div>
-            <div class="form-group">
-              <label for="email"><a href="http://localhost/lineon/public/Sample.xlsx">Click here to download demo import file</a></label>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  
   
 
             <!-- <div class="row">
@@ -132,6 +67,8 @@
 
                     <th>Other Details</th>
 
+                    <th>Associate Name</th>
+
                     <th>Action</th>
 
 <!--                     <th>Status</th>
@@ -144,7 +81,118 @@
 
                 <tbody>
 
-                   @include('admin.leads.list')
+                   @if (!empty($aLists))
+
+     @foreach ($aLists as $aList)
+
+          <tr id="tr_{{$aList->id}}">
+
+            <td>{{ !empty($aList->name) ? Str::replace('_*_',' ',$aList->name): ''}}</td>
+
+            <td>{{ !empty($aList->mobile) ? $aList->mobile: ''}}</td>
+
+            <td>{{ !empty($aList->other_details) ? $aList->other_details: ''}}</td>
+
+            <td>
+              @php
+                $users = DB::table('users')->where('id','=',$aList->assoc_id)->get();
+                echo $users[0]->name;
+              @endphp
+            </td>
+
+            <td>
+                <a href="#" target="_blank" id="click_here"><i class="fa fa-eye" title="View Profile"></i></a>               
+            </td>
+
+           <!--  <td>
+
+               <form id="changeStatus{{$aList->id}}" method="post" onsubmit="return ajax_change_status('changeStatus{{$aList->id}}','{{url('admin/changeStatus')}}','',{{$aList->id}})">
+
+                 @csrf
+
+                 <input type="hidden" name="table" id="table{{$aList->id}}" value="users">
+
+                 <input type="hidden" name="status" id="status{{$aList->id}}" value="{{$aList->status}}">
+
+                 <input type="hidden" name="id" id="id{{$aList->id}}" value="{{$aList->id}}">
+
+                 <div id="statusChange{{$aList->id}}" onclick="submitUpdateStatus('changeStatus{{$aList->id}}')">
+
+                  <a href="javascript:void(0)" class="badge badge-{{ !empty($aList->status) ? 'success' : 'danger'}}">{{ !empty($aList->status) ? 'Active' : 'Inactive'}}</a>
+
+                 </div>
+
+              </form>
+
+            </td>
+
+            <td>
+
+               <div class="row">
+
+                <form  class
+
+                ="icons-list" id="delete{{$aList->id}}" method="post" onsubmit="return ajax_delete_record('delete{{$aList->id}}','{{url('admin/delete')}}','',{{$aList->id}})">
+
+                    @csrf
+
+                    <input type="hidden" name="table" id="table{{$aList->id}}" value="users">
+
+                    <input type="hidden" name="id" id="id{{$aList->id}}" value="{{$aList->id}}">
+
+                    <div class="col-md-12">
+
+                        <i class="mdi mdi-delete" onclick="submitForm('{{$aList->id}}')" title="Delete"></i>
+
+                    </div>
+
+                  </form>
+
+               </div>
+
+            </td> -->
+
+          </tr>
+
+     @endforeach
+
+@endif
+
+@if ($aLists && $aLists->hasPages())
+
+{{-- <tr>
+
+    <td colspan="8" style="border:0px;">
+
+        <nav aria-label="Page navigation example">
+
+            <ul class="pagination">
+
+                Showing {{ ($aLists->currentpage() - 1) * $aLists->perpage() + 1 }} to
+
+                {{ $aLists->currentpage() != $aLists->lastpage() ? $aLists->currentpage() * $aLists->perpage() : $aTotalData }}
+
+                of {{ $aTotalData }} Records
+
+           
+
+            <div class="">{!! $aLists->links() !!} </div>
+
+            </ul>
+
+
+
+        </div>
+
+    </td>
+
+</tr> --}}
+
+
+
+@endif
+
+
 
                 </tbody>
 

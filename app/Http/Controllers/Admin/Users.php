@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class Users extends Controller
 {
@@ -48,6 +49,182 @@ class Users extends Controller
          /*-------------- get data------------------*/
          return view('admin.leads.index',['aTotalData'=>$aListCount,'aLists'=>$aListData]);
      }
+
+     public function assignLead(Request $request){
+         /*---------------------- get per page paging record show ------------------------------*/
+           $iPerPagePagination  = perPagePaging();
+        /*---------------------- get per page paging record show ------------------------------*/
+
+         /*-------------- count data------------------*/
+           $aListCount = DB::table('leads')
+                            ->orderBy('id','desc')
+                            ->count();
+         /*-------------- count data------------------*/
+
+         /*-------------- get data------------------*/
+           $aListData = DB::table('leads')
+                        ->orderBy('id','desc')
+                        ->where('assigned_status','=',0)
+                        ->paginate($iPerPagePagination);
+
+           $userListData = DB::table('users')
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+         /*-------------- get data------------------*/
+         return view('admin.leads.assign_lead',['userListData' => $userListData,
+            'aTotalData'=>$aListCount,'aLists'=>$aListData]);
+     }
+
+     public function assignLeadToassociate(Request $request){
+        $assoc_id  = $request->assoc_id;
+        $lead_name = $request->lead_name;
+
+        foreach($lead_name as $lead){
+            DB::table('leads')
+                ->where('id', $lead)  
+                ->update(
+                    array(
+                        'assigned_status' => 1,
+                        'assoc_id' => $assoc_id,
+                    )
+            ); 
+        }
+
+        /*---------------------- get per page paging record show ------------------------------*/
+           $iPerPagePagination  = perPagePaging();
+        /*---------------------- get per page paging record show ------------------------------*/
+
+         /*-------------- count data------------------*/
+           $aListCount = DB::table('leads')
+                            ->orderBy('id','desc')
+                            ->count();
+         /*-------------- count data------------------*/
+
+         /*-------------- get data------------------*/
+           $aListData = DB::table('leads')
+                        ->orderBy('id','desc')
+                        ->where('assigned_status','=',0)
+                        ->paginate($iPerPagePagination);
+
+           $userListData = DB::table('users')
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+         /*-------------- get data------------------*/
+         return view('admin.leads.assign_lead',['userListData' => $userListData,
+            'aTotalData'=>$aListCount,'aLists'=>$aListData]);
+     }
+
+     public function viewAssignLeadToassociate(Request $request){
+        /*---------------------- get per page paging record show ------------------------------*/
+           $iPerPagePagination  = perPagePaging();
+        /*---------------------- get per page paging record show ------------------------------*/
+
+         /*-------------- count data------------------*/
+           $aListCount = DB::table('leads')
+                            ->orderBy('id','desc')
+                            ->count();
+         /*-------------- count data------------------*/
+
+         /*-------------- get data------------------*/
+           $aListData = DB::table('leads')
+                        ->orderBy('id','desc')
+                        ->where('assigned_status','=',1)
+                        ->paginate($iPerPagePagination);
+
+           $userListData = DB::table('users')
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+         /*-------------- get data------------------*/
+         return view('admin.leads.view_assign_lead',['userListData' => $userListData,
+            'aTotalData'=>$aListCount,'aLists'=>$aListData]);
+     }
+
+     public function SaveLeadList(Request $request){
+         $post = $request->input();
+         $lead_name = $post['lead_name'];
+         $lead_mobile = $post['lead_mobile'];
+         $lead_other_details = $post['lead_other_details'];
+        
+         //insert data
+         $id = DB::table('leads')->insertGetId([
+                        'name'      => $lead_name,
+                        'mobile'    => $lead_mobile,
+                        'other_details'    => $lead_other_details,
+                        'created_date' => date('Y-m-d'),
+                        'created_time' => date('H:i:s')
+                    ]);
+
+        /*---------------------- get per page paging record show ------------------------------*/
+           $iPerPagePagination  = perPagePaging();
+        /*---------------------- get per page paging record show ------------------------------*/
+
+         /*-------------- count data------------------*/
+           $aListCount = DB::table('leads')
+                            ->orderBy('id','desc')
+                            ->count();
+         /*-------------- count data------------------*/
+
+         /*-------------- get data------------------*/
+           $aListData = DB::table('leads')
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+         /*-------------- get data------------------*/
+
+         return view('admin.leads.index',['aTotalData'=>$aListCount,'aLists'=>$aListData]);
+     }
+
+     public function UploadLeadList(Request $request){
+        // Allowed mime types 
+        $excelMimes = array('text/xls', 'text/xlsx', 'application/excel', 'application/vnd.msexcel', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); 
+         
+        // Validate whether selected file is a Excel file 
+        if(!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $excelMimes)){ 
+             
+        // If the file is uploaded 
+        if(is_uploaded_file($_FILES['file']['tmp_name'])){ 
+            $reader = new Xlsx(); 
+            $spreadsheet = $reader->load($_FILES['file']['tmp_name']); 
+            $worksheet = $spreadsheet->getActiveSheet();  
+            $worksheet_arr = $worksheet->toArray(); 
+ 
+            // Remove header row 
+            unset($worksheet_arr[0]); 
+ 
+            foreach($worksheet_arr as $row){ 
+                $lead_name = $row[0];
+                $lead_mobile = $row[1];
+                $lead_other_details = $row[2];
+        
+                //insert data
+                $id = DB::table('leads')->insertGetId([
+                        'name'      => $lead_name,
+                        'mobile'    => $lead_mobile,
+                        'other_details'    => $lead_other_details,
+                        'created_date' => date('Y-m-d'),
+                        'created_time' => date('H:i:s')
+                    ]);
+            }
+         }
+         }
+         /*---------------------- get per page paging record show ------------------------------*/
+           $iPerPagePagination  = perPagePaging();
+        /*---------------------- get per page paging record show ------------------------------*/
+
+         /*-------------- count data------------------*/
+           $aListCount = DB::table('leads')
+                            ->orderBy('id','desc')
+                            ->count();
+         /*-------------- count data------------------*/
+
+         /*-------------- get data------------------*/
+           $aListData = DB::table('leads')
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+         /*-------------- get data------------------*/
+
+         return view('admin.leads.index',['aTotalData'=>$aListCount,'aLists'=>$aListData]);
+     }
+
 
 
       public function saveUsersList(Request $request){

@@ -334,6 +334,12 @@ Route::get('/admin/dashboard', [Dashboard::class, 'index']);
 
      /*------------------ common route ----------------*/
 
+    
+
+      Route::post('/admin/save-lead-list', [Users::class, 'SaveLeadList']);
+
+      Route::post('/admin/upload-lead-list', [Users::class, 'UploadLeadList']);
+
        Route::post('/admin/changeStatus', [Common::class, 'changeStatus']);
 
        Route::post('/admin/delete', [Common::class, 'delete']);
@@ -350,10 +356,11 @@ Route::get('/admin/dashboard', [Dashboard::class, 'index']);
   
       Route::get('/admin/create-lead', [Users::class, 'createLead']);
 
+      Route::get('/admin/assign-leads', [Users::class, 'assignLead']);
 
+      Route::post('admin/assign-lead-toassociate', [Users::class, 'assignLeadToassociate']);
 
-
-      
+      Route::get('admin/view-assign-leads', [Users::class, 'viewAssignLeadToassociate']);
 
       Route::get('/admin/propertyenquiry-list', [Users::class, 'propertyEnquiry']);
 
