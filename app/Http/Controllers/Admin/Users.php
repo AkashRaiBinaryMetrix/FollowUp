@@ -72,25 +72,17 @@ class Users extends Controller
                         ->paginate($iPerPagePagination);
          /*-------------- get data------------------*/
          return view('admin.leads.assign_lead',['userListData' => $userListData,
-            'aTotalData'=>$aListCount,'aLists'=>$aListData]);
+            'aTotalData'=>$aListCount,'aLists'=>$aListData,'msg' => '', 
+            'er' => '']);
      }
 
      public function assignLeadToassociate(Request $request){
         $assoc_id  = $request->assoc_id;
-        $lead_name = $request->lead_name;
+        $lead_name_arr = array();
+        $lead_name_arr = $request->lead_name;
 
-        foreach($lead_name as $lead){
-            DB::table('leads')
-                ->where('id', $lead)  
-                ->update(
-                    array(
-                        'assigned_status' => 1,
-                        'assoc_id' => $assoc_id,
-                    )
-            ); 
-        }
-
-        /*---------------------- get per page paging record show ------------------------------*/
+        if (empty($lead_name_arr)) {
+            /*---------------------- get per page paging record show ------------------------------*/
            $iPerPagePagination  = perPagePaging();
         /*---------------------- get per page paging record show ------------------------------*/
 
@@ -111,7 +103,48 @@ class Users extends Controller
                         ->paginate($iPerPagePagination);
          /*-------------- get data------------------*/
          return view('admin.leads.assign_lead',['userListData' => $userListData,
-            'aTotalData'=>$aListCount,'aLists'=>$aListData]);
+            'aTotalData'=>$aListCount,
+            'aLists'=>$aListData, 
+            'msg' => '', 
+            'er' => 'Please select lead name']);
+        }else{
+              foreach($lead_name_arr as $lead){
+                DB::table('leads')
+                    ->where('id', $lead)  
+                    ->update(
+                        array(
+                            'assigned_status' => 1,
+                            'assoc_id' => $assoc_id,
+                        )
+                ); 
+            }
+
+            /*---------------------- get per page paging record show ------------------------------*/
+           $iPerPagePagination  = perPagePaging();
+           /*---------------------- get per page paging record show ------------------------------*/
+
+           /*-------------- count data------------------*/
+           $aListCount = DB::table('leads')
+                            ->orderBy('id','desc')
+                            ->count();
+           /*-------------- count data------------------*/
+
+           /*-------------- get data------------------*/
+           $aListData = DB::table('leads')
+                        ->orderBy('id','desc')
+                        ->where('assigned_status','=',0)
+                        ->paginate($iPerPagePagination);
+
+           $userListData = DB::table('users')
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+         /*-------------- get data------------------*/
+         return view('admin.leads.assign_lead',['userListData' => $userListData,
+            'aTotalData'=>$aListCount,
+            'aLists'=>$aListData, 
+            'msg' => 'Lead assigned successfully', 
+            'er' => '']);
+        }
      }
 
      public function viewAssignLeadToassociate(Request $request){
@@ -137,6 +170,28 @@ class Users extends Controller
          /*-------------- get data------------------*/
          return view('admin.leads.view_assign_lead',['userListData' => $userListData,
             'aTotalData'=>$aListCount,'aLists'=>$aListData]);
+     }
+
+     public function viewfollowupDetails(Request $request, $id){
+        /*---------------------- get per page paging record show ------------------------------*/
+        $iPerPagePagination  = perPagePaging();
+        /*---------------------- get per page paging record show ------------------------------*/
+
+         /*-------------- count data------------------*/
+           $aListCount = DB::table('follow_up_details')
+                            ->orderBy('id','desc')
+                            ->count();
+         /*-------------- count data------------------*/
+
+         /*-------------- get data------------------*/
+           $aListData = DB::table('follow_up_details')
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+
+         /*-------------- get data------------------*/
+         return view('admin.leads.view_assign_lead_details',[
+            'aTotalData'=>$aListCount,'aLists'=>$aListData]);
+
      }
 
      public function SaveLeadList(Request $request){

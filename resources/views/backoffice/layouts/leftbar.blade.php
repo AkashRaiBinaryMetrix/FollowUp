@@ -25,11 +25,23 @@
 
     <li class="nav-item" id="leftUsers">
 
-      <a class="nav-link" href="{{ url('backoffice/create-lead') }}">
+      <a class="nav-link" href="{{ url('backoffice/view-list') }}">
 
         <i class="fa fa-address-book"></i>
 
-        <span class="menu-title" style="margin: 5px;">Create New Lead</span>
+        <span class="menu-title" style="margin: 5px;">View Leads</span>
+
+      </a>
+
+    </li>
+
+    <li class="nav-item" id="leftUsers">
+
+      <a class="nav-link" href="{{ url('backoffice/upcoming') }}">
+
+        <i class="fa fa-address-book"></i>
+
+        <span class="menu-title" style="margin: 5px;">Upcoming</span>
 
       </a>
 

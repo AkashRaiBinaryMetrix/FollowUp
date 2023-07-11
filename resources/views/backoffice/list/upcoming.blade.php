@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('backoffice.layouts.master')
 
 @section('title','Users List')
 
@@ -15,43 +15,7 @@
 
           <div class="card-body">
 
-            <h4 class="card-title">View Assigned Leads List</h4>
-
-  
-           
-
-  
-  
-
-            <!-- <div class="row">
-
-                <div class="col-md-3">
-
-                   <input type="text" class="form-control" name="search" id="search" placeholder="search">
-
-                </div>
-
-                <div class="col-md-3">
-
-                   <select class="form-control" onchange="filterByStatus(this.value)" name="status" id="status">
-
-                         <option value="">Filter By Status</option>
-
-                         <option value="<?=ACTIVE?>">Active</option>
-
-                         <option value="<?=INACTIVE?>">Inactive</option>
-
-                   </select>
-
-                </div>
-
-                <div class="col-md-3">
-
-                   <a href="{{url('admin/users-list')}}" class="btn btn-primary">Clear Filter</a>
-
-                </div>
-
-            </div> -->
+            <h4 class="card-title">Leads List</h4>
 
             <div class="table-responsive">
 
@@ -66,8 +30,6 @@
                     <th>Email</th>
 
                     <th>Other Details</th>
-
-                    <th>Associate Name</th>
 
                     <th>Action</th>
 
@@ -94,63 +56,8 @@
             <td>{{ !empty($aList->other_details) ? $aList->other_details: ''}}</td>
 
             <td>
-              @php
-                $users = DB::table('users')->where('id','=',$aList->assoc_id)->get();
-                echo $users[0]->name;
-              @endphp
+                <a href="{{ url('backoffice/viewfollowupdetails',[$aList->id]) }}"><i class="fa fa-eye" title="View Follow-Up Details"></i></a>               
             </td>
-
-            <td>
-                <a href="{{ url('admin/viewfollowupdetails',[$aList->id]) }}"><i class="fa fa-eye" title="View Follow-Up Details"></i></a>               
-            </td>
-
-           <!--  <td>
-
-               <form id="changeStatus{{$aList->id}}" method="post" onsubmit="return ajax_change_status('changeStatus{{$aList->id}}','{{url('admin/changeStatus')}}','',{{$aList->id}})">
-
-                 @csrf
-
-                 <input type="hidden" name="table" id="table{{$aList->id}}" value="users">
-
-                 <input type="hidden" name="status" id="status{{$aList->id}}" value="{{$aList->status}}">
-
-                 <input type="hidden" name="id" id="id{{$aList->id}}" value="{{$aList->id}}">
-
-                 <div id="statusChange{{$aList->id}}" onclick="submitUpdateStatus('changeStatus{{$aList->id}}')">
-
-                  <a href="javascript:void(0)" class="badge badge-{{ !empty($aList->status) ? 'success' : 'danger'}}">{{ !empty($aList->status) ? 'Active' : 'Inactive'}}</a>
-
-                 </div>
-
-              </form>
-
-            </td>
-
-            <td>
-
-               <div class="row">
-
-                <form  class
-
-                ="icons-list" id="delete{{$aList->id}}" method="post" onsubmit="return ajax_delete_record('delete{{$aList->id}}','{{url('admin/delete')}}','',{{$aList->id}})">
-
-                    @csrf
-
-                    <input type="hidden" name="table" id="table{{$aList->id}}" value="users">
-
-                    <input type="hidden" name="id" id="id{{$aList->id}}" value="{{$aList->id}}">
-
-                    <div class="col-md-12">
-
-                        <i class="mdi mdi-delete" onclick="submitForm('{{$aList->id}}')" title="Delete"></i>
-
-                    </div>
-
-                  </form>
-
-               </div>
-
-            </td> -->
 
           </tr>
 

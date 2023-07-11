@@ -6,7 +6,29 @@
 
        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script> 
 
+ <div class="modal fade" id="myModal12345" role="dialog">
+                <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Alert</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Hello you have <label id="cccount"></label> follow-ups today.</p>
+                  
+                  <form action="{{url('backoffice/upcoming')}}" method="post">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="dddDate" id="ddddate">
+                    <input type="submit" name="btnHiddenSubmit" id="btnHiddenSubmit" value="Click to view details">
+                  </form>
 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
   <div class="content-wrapper">
 

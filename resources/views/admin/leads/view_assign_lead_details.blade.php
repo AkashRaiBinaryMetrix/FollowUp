@@ -15,77 +15,12 @@
 
           <div class="card-body">
 
-            <h4 class="card-title">Manage Leads List</h4>
+            <h4 class="card-title">Leads Details</h4>
 
-            <button style="float: right;margin-top: -38px;border-radius: 6px;border-color: darkolivegreen;" data-toggle="modal" data-target="#myModal">Add New Lead</button>
+  
+           
 
-            <button style="float: right;margin-top: -38px;border-radius: 6px;border-color: darkolivegreen;margin-right: 139px;" data-toggle="modal" data-target="#myModalImport">Import Leads</button>
-
-            <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Add New Leads</h4>
-        </div>
-        <div class="modal-body">
-          <form action="{{url('admin/save-lead-list')}}" method="post">
-            {{ csrf_field() }}
-            <div class="form-group">
-              <label for="email">Name:</label>
-              <input type="text" name="lead_name" class="form-control" id="email" required>
-            </div>
-            <div class="form-group">
-              <label for="pwd">Mobile:</label>
-              <input type="number" name="lead_mobile" class="form-control" id="pwd" required>
-            </div>
-            <div class="form-group">
-              <label for="pwd">Other Details:</label>
-              <input type="text" name="lead_other_details" class="form-control" id="other_details" >
-            </div>
-            <button type="submit" style="border-color: #f2c103 !important;background:#f2c103 !important" name="btnSubmit" class="btn btn-default">Submit</button>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
-
-  <div class="modal fade" id="myModalImport" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Import Leads</h4>
-        </div>
-        <div class="modal-body">
-          <form action="{{url('admin/upload-lead-list')}}" method="post" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            <div class="form-group">
-              <label for="email">Import excel file:</label>
-              <input type="file" name="file" class="form-control" id="email" >
-            </div>
-            <button type="submit" style="border-color: #f2c103 !important;background:#f2c103 !important" name="btnSubmit" class="btn btn-default">Submit</button>
-            <div class="form-group">
-            </div>
-            <div class="form-group">
-              <label for="email"><a href="http://localhost/lineon/public/Sample.xlsx">Click here to download demo import file</a></label>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  
   
 
             <!-- <div class="row">
@@ -126,13 +61,15 @@
 
                   <tr>
 
-                    <th>Name</th>
+                    <th>Property Name</th>
 
-                    <th>Email</th>
+                    <th>Details</th>
 
-                    <th>Other Details</th>
+                    <th>Current Follow-up Date</th>
 
-                    <th>Action</th>
+                    <th>Next Follow-up Date</th>
+
+                    <!-- <th>Action</th> -->
 
 <!--                     <th>Status</th>
  -->
@@ -144,7 +81,64 @@
 
                 <tbody>
 
-                   @include('admin.leads.list')
+                   @if (!empty($aLists))
+
+     @foreach ($aLists as $aList)
+
+          <tr id="tr_{{$aList->id}}">
+
+            <td>{{$aList->property_name}}</td>
+
+            <td>{{$aList->other_details}}</td>
+
+            <td>{{$aList->followup_date}}</td>
+
+            <td>{{$aList->next_followup_date}}</td>
+           
+
+          
+
+          </tr>
+
+     @endforeach
+
+@endif
+
+@if ($aLists && $aLists->hasPages())
+
+{{-- <tr>
+
+    <td colspan="8" style="border:0px;">
+
+        <nav aria-label="Page navigation example">
+
+            <ul class="pagination">
+
+                Showing {{ ($aLists->currentpage() - 1) * $aLists->perpage() + 1 }} to
+
+                {{ $aLists->currentpage() != $aLists->lastpage() ? $aLists->currentpage() * $aLists->perpage() : $aTotalData }}
+
+                of {{ $aTotalData }} Records
+
+           
+
+            <div class="">{!! $aLists->links() !!} </div>
+
+            </ul>
+
+
+
+        </div>
+
+    </td>
+
+</tr> --}}
+
+
+
+@endif
+
+
 
                 </tbody>
 
@@ -170,7 +164,8 @@
 
   </div>
 
-<script>
+  <script>
+
            /*--------------------- filter by menu, category, sub category and status ------------------------- */
 
 $(document).on('keyup', '#search', function() {

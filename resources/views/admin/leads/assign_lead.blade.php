@@ -14,6 +14,7 @@ function toggle(source) {
 }
 </script>
 
+       
   <form action="{{ url('admin/assign-lead-toassociate') }}" method="post">
      @csrf
   <div class="content-wrapper">
@@ -26,15 +27,19 @@ function toggle(source) {
 
           <div class="card-body">
 
+            <p style="color:green;">{{$msg}}</p> 
+ 
+            <p style="color:red;">{{$er}}</p> 
+
             <h4 class="card-title">Assign Lead</h4>
 
             <label>Select Associate</label>
 
-            @foreach ($userListData as $users)
             <select name="assoc_id">
+            @foreach($userListData as $users)
               <option value="{{$users->id}}">{{$users->name}}</option>
-            </select>
             @endforeach
+            </select>
 
             <button type="submit">Submit</button>
 

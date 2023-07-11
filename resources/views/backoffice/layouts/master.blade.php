@@ -72,9 +72,9 @@
 
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
 
-        <a class="navbar-brand brand-logo mr-5" href="{{ url('backoffice/dashboard') }}"><img src="https://uilogos.co/img/logotype/treva.png" class="mr-2" alt="logo"/></a>
+        <a class="navbar-brand brand-logo mr-5" href="{{ url('admin/dashboard') }}"><img src="https://uilogos.co/img/logotype/treva.png" class="mr-2" alt="logo"/></a>
 
-        <a class="navbar-brand brand-logo-mini" href="{{ url('backoffice/dashboard') }}"><img src="https://uilogos.co/img/logotype/treva.png" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="{{ url('admin/dashboard') }}"><img src="https://uilogos.co/img/logotype/treva.png" alt="logo"/></a>
 
       </div>
 
@@ -226,7 +226,7 @@
 
               </a> --}}
 
-              <a href="{{ url('backoffice/logout') }}" class="dropdown-item">
+              <a href="{{ url('admin/logout') }}" class="dropdown-item">
 
                 <i class="fa fa-power-off"></i>
 
@@ -721,6 +721,67 @@
     });
 
 </script>
+
+
+
+@php
+ $date = date("Y-m-d");
+@endphp
+<input type="hidden" id="current_date" name="current_date" value="{{$date}}">
+<script>
+function formatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes;
+  return strTime;
+}
+
+function formatAMPMUnit(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  var strTime = ampm;
+  return strTime;
+}
+
+//check if record for current system date exists
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+system_date = yyyy + '-' + mm + '-' + dd;
+current_date = document.getElementById("current_date").value;
+//alert(system_date);
+
+          $.ajax({
+            url:"{{route('backofice.fetchUpcoming')}}",
+            type: "POST",
+            data: {
+              ddate: system_date,
+              _token: '{{csrf_token()}}' 
+            },
+            //dataType : 'json',
+            success: function(result){
+                  if(result !=0){
+                    $("#ddddate").val(system_date);
+                    $("#cccount").text(result);
+                    $("#button_alert").click();
+                  }
+            }
+            });
+
+
+
+</script>
+
+<button style="display: none;float: right;margin-top: -38px;border-radius: 6px;border-color: darkolivegreen;" data-toggle="modal" data-target="#myModal12345" id="button_alert">Add New Follow-Up</button>
+
+           
 
 </body>
 

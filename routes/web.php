@@ -319,7 +319,19 @@ Route::get('/backoffice', [Login::class, 'associateLogin']);
 Route::post('/backoffice', [Login::class, 'associateLogin']);
 
 Route::group(['middleware' => 'auth_backoffice'], function () {
+  
   Route::get('/backoffice/dashboard', [Backofficedashboard::class, 'index']);
+
+  Route::any('/backoffice/view-list', [Backofficedashboard::class, 'viewLList']);
+
+  Route::get('backoffice/viewfollowupdetails/{id}', [Backofficedashboard::class, 'viewfollowupDetails']);
+
+  Route::post('backoffice/save-follow-details', [Backofficedashboard::class, 'savefollowupDetails']);
+
+  Route::any('backoffice/upcoming', [Backofficedashboard::class, 'upcoming']);
+
+  Route::any('backofice/fetchUpcoming', [Backofficedashboard::class, 'fetchUpcoming'])->name('backofice.fetchUpcoming');
+
 });
 //
 
@@ -361,6 +373,9 @@ Route::get('/admin/dashboard', [Dashboard::class, 'index']);
       Route::post('admin/assign-lead-toassociate', [Users::class, 'assignLeadToassociate']);
 
       Route::get('admin/view-assign-leads', [Users::class, 'viewAssignLeadToassociate']);
+
+      Route::get('admin/viewfollowupdetails/{id}', [Users::class, 'viewfollowupDetails']);
+
 
       Route::get('/admin/propertyenquiry-list', [Users::class, 'propertyEnquiry']);
 
