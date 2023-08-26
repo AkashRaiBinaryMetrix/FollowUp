@@ -11,9 +11,9 @@
             <td>{{ !empty($aList->other_details) ? $aList->other_details: ''}}</td>
 
             <td>
-                <a href="#" target="_blank" id="click_here"><i class="fa fa-user" title="View Profile"></i></a>
+                <a href="#" target="_blank" id="click_here"><i class="fa fa-pencil" title="Edit Lead"></i></a>
                 
-                <a href="#" target="_blank" id="click_here"><i class="fa fa-toggle-on" title="Deactivate"></i></a>
+                <a href="#" target="_blank" id="click_here">Activate</a>
             </td>
 
            <!--  <td>

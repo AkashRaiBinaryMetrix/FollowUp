@@ -71,9 +71,9 @@
                 <p class="mb-4">Total In-Active Associates</p>
 
                 @php
-                $count = DB::table('blog')->count();
+                $cccount = DB::table('users')->where('status','=',0)->count();
                 @endphp
-                <p class="fs-30 mb-2">0</p>
+                <p class="fs-30 mb-2">{{$cccount}}</p>
 
               </div>
 
@@ -90,9 +90,9 @@
                 <p class="mb-4">Total Leads</p>
 
                 @php
-                $count = DB::table('property_list')->count();
+                $leads = DB::table('leads')->count();
                 @endphp
-                <p class="fs-30 mb-2">0</p>
+                <p class="fs-30 mb-2">{{$leads}}</p>
 
               </div>
 
@@ -109,9 +109,9 @@
                 <p class="mb-4">Total Follow-Ups</p>
 
                 @php
-                $count = DB::table('property_enquiry')->count();
+                $follow_up_details = DB::table('follow_up_details')->count();
                 @endphp
-                <p class="fs-30 mb-2">0</p>
+                <p class="fs-30 mb-2">{{$follow_up_details}}</p>
 
               </div>
 
@@ -127,33 +127,15 @@
       var myChart = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            labels: ['Total Active Associates','Total In-Active Associates','Total Leads','Total Follow-Ups'],
             datasets: [{ 
-                data: [86,114,106,106,107,111,133],
-                label: "Total",
+                data: [{{$count}},{{$cccount}},{{$leads}},{{$follow_up_details}}],
+                label: "Total Users",
                 borderColor: "#3e95cd",
                 backgroundColor: "rgb(62,149,205)",
                 borderWidth:2,
-                type: 'line',
-                fill:false
-              }, { 
-                data: [70,90,44,60,83,90,100],
-                label: "Accepted",
-                borderColor: "#3cba9f",
-                backgroundColor: "#3cba9f",
-                borderWidth:2
-              }, { 
-                data: [10,21,60,44,17,21,17],
-                label: "Pending",
-                borderColor: "#ffa500",
-                backgroundColor:"#ffa500",
-                borderWidth:2,
-              }, { 
-                data: [6,3,2,2,7,0,16],
-                label: "Rejected",
-                borderColor: "#c45850",
-                backgroundColor:"#c45850",
-                borderWidth:2
+                type: 'bar',
+                fill:true
               }
             ]
           },

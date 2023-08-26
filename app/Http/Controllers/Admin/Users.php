@@ -31,6 +31,80 @@ class Users extends Controller
          return view('admin.users.index',['aTotalData'=>$aListCount,'aLists'=>$aListData]);
      }
 
+     public function updateAssocStatus(Request $request,$id,$stat) {
+        DB::table('users')
+                ->where($id,1)
+                ->update(array(
+                                 'username'=>$username,
+                        ));
+        /*---------------------- get per page paging record show ------------------------------*/
+           $iPerPagePagination  = perPagePaging();
+        /*---------------------- get per page paging record show ------------------------------*/
+
+         /*-------------- count data------------------*/
+           $aListCount = DB::table('users')
+                            ->where('is_deleted',N)
+                            ->orderBy('id','desc')
+                            ->count();
+         /*-------------- count data------------------*/
+
+         /*-------------- get data------------------*/
+           $aListData = DB::table('users')
+                        ->where('is_deleted',N)
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+         /*-------------- get data------------------*/
+         return view('admin.users.index',['aTotalData'=>$aListCount,'aLists'=>$aListData]);
+     }
+
+     public function viewPlots(){
+        /*---------------------- get per page paging record show ------------------------------*/
+           $iPerPagePagination  = perPagePaging();
+        /*---------------------- get per page paging record show ------------------------------*/
+
+         /*-------------- count data------------------*/
+           $aListCount = DB::table('plots_entry')
+                            ->orderBy('id','desc')
+                            ->count();
+         /*-------------- count data------------------*/
+
+         /*-------------- get data------------------*/
+           $aListData = DB::table('plots_entry')
+                        ->orderBy('id','desc')
+                        ->paginate($iPerPagePagination);
+         /*-------------- get data------------------*/
+
+        return view('admin.plots.plotsListEdit',['aTotalData'=>$aListCount,'aLists'=>$aListData]);
+     }
+
+     public function addPlots(){
+                 return view('admin.plots.createPlot',[]);
+     }
+
+     public function createPlotProcess(Request $request){
+         $post = $request->input();
+         $project_id = $post['project_id'];
+         $plot_no = $post['plot_no'];
+         $gata_no = $post['gata_no'];
+         $booking_status = $post['booking_status'];
+
+         foreach($plot_no as $key => $val) {
+                $plotno  = $val;
+                $gatano = $gata_no[$key];
+                $bookingstatus = $booking_status[$key];
+
+                $id = DB::table('plots_entry')->insertGetId([
+                        'project_id'  => $project_id,
+                        'plot_no'     => $plotno,
+                        'gata_no'     => $gatano,
+                        'status'      => $bookingstatus,
+                    ]);    
+         }
+
+        return view('admin.plots.plotsListEdit',[]);
+     }
+
+
      public function createLead(Request $request){
         /*---------------------- get per page paging record show ------------------------------*/
            $iPerPagePagination  = perPagePaging();

@@ -1,9 +1,8 @@
 @extends('admin.layouts.master')
 
-@section('title','Users List')
+@section('title','View Plots')
 
-@section('content')
- 
+@section('content')    
 
   <div class="content-wrapper">
 
@@ -15,44 +14,7 @@
 
           <div class="card-body">
 
-            <h4 class="card-title">Associates List</h4>
-
-            <button style="float: right;margin-top: -38px;border-radius: 6px;border-color: darkolivegreen;" data-toggle="modal" data-target="#myModal">Add New Associate</button>
-
-            <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Add New Associate</h4>
-        </div>
-        <div class="modal-body">
-          <form action="{{url('admin/save-users-list')}}" method="post">
-            {{ csrf_field() }}
-            <div class="form-group">
-              <label for="email">Name:</label>
-              <input type="text" name="assoc_name" class="form-control" id="email" required>
-            </div>
-            <div class="form-group">
-              <label for="pwd">Email:</label>
-              <input type="email" name="email" class="form-control" id="pwd" required>
-            </div>
-            <div class="form-group">
-              <label for="pwd">Mobile:</label>
-              <input type="number" name="mobile" class="form-control" id="pwd" required>
-            </div>
-            <button type="submit" style="border-color: #f2c103 !important;background:#f2c103 !important" name="btnSubmit" class="btn btn-default">Submit</button>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-  
+            <h4 class="card-title">Plots List</h4>
 
             <!-- <div class="row">
 
@@ -92,14 +54,14 @@
 
                   <tr>
 
-                    <th>Name</th>
+                    <th>Project Name</th>
 
-                    <th>Email</th>
+                    <th>Plot Number</th>
 
-                    <th>Mobile</th>
+                    <th>Gata Number</th>
 
                     <th>Status</th>
-
+                    
                     <th>Action</th>
 
 <!--                     <th>Status</th>
@@ -112,7 +74,7 @@
 
                 <tbody>
 
-                   @include('admin.users.list')
+                   @include('admin.plots.enquirelist')
 
                 </tbody>
 

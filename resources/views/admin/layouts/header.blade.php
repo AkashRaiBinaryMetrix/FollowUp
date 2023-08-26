@@ -186,7 +186,7 @@
             pagespeed.CriticalImages.Run('/mod_pagespeed_beacon', 'https://binarymetrix.in/glow/login.html',
               'oG-7lxx8_G', true, false, 'HuJ06A4gojU');
             //]]>
-            </script><img src="https://uilogos.co/img/logotype/treva.png" alt="" data-pagespeed-url-hash="1514387616"
+            </script><img src="{{ asset('backend/images/faces/face28.jpg') }}" alt="" data-pagespeed-url-hash="1514387616"
               onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
           </div>
         </a>

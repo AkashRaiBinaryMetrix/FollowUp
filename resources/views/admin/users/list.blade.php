@@ -11,9 +11,32 @@
             <td>{{ !empty($aList->mobile) ? $aList->mobile: ''}}</td>
 
             <td>
-                <a href="{{url('/view-generaluser-profile/'.$aList->id)}}" target="_blank" id="click_here"><i class="fa fa-user" title="View Profile"></i></a>
-                
-                <a href="{{url('/view-generaluser-profile/'.$aList->id)}}" target="_blank" id="click_here"><i class="fa fa-toggle-on" title="Deactivate"></i></a>
+                @php
+                 if($aList->status == 1){
+                @endphp
+                    Active
+                @php
+                 }else{
+                @endphp
+                    De-Active
+                @php
+                    }
+                @endphp
+            </td>
+
+            <td>
+                <a href="{{url('/admn/view-generaluser-profile/'.$aList->id)}}" target="_blank" id="click_here"><i class="fa fa-pencil" title="View Profile"></i></a>
+                @php
+                 if($aList->status == 1){
+                @endphp
+                <a href="{{url('/admin/update_assoc_status/'.$aList->id.'/0')}}" target="_blank" id="click_here">Deactivate</a>
+                @php
+                 }else{
+                @endphp
+                <a href="{{url('/admin/update_assoc_status/'.$aList->id.'/1')}}" target="_blank" id="click_here">Activate</a>
+                @php
+                    }
+                @endphp
             </td>
 
            <!--  <td>

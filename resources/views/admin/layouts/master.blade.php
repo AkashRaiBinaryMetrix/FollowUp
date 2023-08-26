@@ -72,9 +72,11 @@
 
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
 
-        <a class="navbar-brand brand-logo mr-5" href="{{ url('admin/dashboard') }}"><img src="https://uilogos.co/img/logotype/treva.png" class="mr-2" alt="logo"/></a>
+        <a class="navbar-brand brand-logo mr-5" href="{{ url('admin/dashboard') }}"><img src="{{ asset('backend/images/faces/logo.png') }}" class="mr-2" alt="logo" style="    width: 142px;
+    height: 61px;" /></a>
 
-        <a class="navbar-brand brand-logo-mini" href="{{ url('admin/dashboard') }}"><img src="https://uilogos.co/img/logotype/treva.png" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="{{ url('admin/dashboard') }}"><img src="{{ asset('backend/images/faces/logo.png') }}" alt="logo" style="    width: 142px;
+    height: 61px;"/></a>
 
       </div>
 

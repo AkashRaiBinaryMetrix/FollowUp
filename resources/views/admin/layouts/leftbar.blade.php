@@ -71,6 +71,30 @@
 
     </li>
 
+    <li class="nav-item" id="leftUsers">
+
+      <a class="nav-link" href="{{ url('admin/add-plots') }}">
+
+        <i class="fa fa-address-book"></i>
+
+        <span class="menu-title" style="margin: 5px;">Add Plots</span>
+
+      </a>
+
+    </li>
+
+    <li class="nav-item" id="leftUsers">
+
+      <a class="nav-link" href="{{ url('admin/view-plots') }}">
+
+        <i class="fa fa-address-book"></i>
+
+        <span class="menu-title" style="margin: 5px;">View Plots</span>
+
+      </a>
+
+    </li>
+
     <!-- <li class="nav-item" id="leftPropertyEnquiry">
 
       <a class="nav-link" href="{{ url('admin/propertyenquiry-list') }}">

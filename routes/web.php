@@ -346,7 +346,12 @@ Route::get('/admin/dashboard', [Dashboard::class, 'index']);
 
      /*------------------ common route ----------------*/
 
-    
+    Route::get('/admin/add-plots', [Users::class, 'addPlots']);
+
+    Route::get('/admin/view-plots', [Users::class, 'viewPlots']);
+
+
+     Route::post('/admin/create-plot-process', [Users::class, 'createPlotProcess']);
 
       Route::post('/admin/save-lead-list', [Users::class, 'SaveLeadList']);
 
@@ -376,6 +381,7 @@ Route::get('/admin/dashboard', [Dashboard::class, 'index']);
 
       Route::get('admin/viewfollowupdetails/{id}', [Users::class, 'viewfollowupDetails']);
 
+      Route::get('admin/update_assoc_status/{id}/{stat}', [Users::class, 'updateAssocStatus']);
 
       Route::get('/admin/propertyenquiry-list', [Users::class, 'propertyEnquiry']);
 
