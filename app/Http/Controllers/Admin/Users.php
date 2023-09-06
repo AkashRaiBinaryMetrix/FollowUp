@@ -107,7 +107,7 @@ class Users extends Controller
 
      public function createLead(Request $request){
         /*---------------------- get per page paging record show ------------------------------*/
-           $iPerPagePagination  = perPagePaging();
+           //$iPerPagePagination  = perPagePaging();
         /*---------------------- get per page paging record show ------------------------------*/
 
          /*-------------- count data------------------*/
@@ -117,9 +117,12 @@ class Users extends Controller
          /*-------------- count data------------------*/
 
          /*-------------- get data------------------*/
-           $aListData = DB::table('leads')
-                        ->orderBy('id','desc')
-                        ->paginate($iPerPagePagination);
+           $aListData = DB::table('leads')->get();
+                        //->orderBy('id','desc');
+                        //->paginate($iPerPagePagination);
+
+                        // print_r($aListData);
+                        // exit;
          /*-------------- get data------------------*/
          return view('admin.leads.index',['aTotalData'=>$aListCount,'aLists'=>$aListData]);
      }
@@ -253,12 +256,14 @@ class Users extends Controller
 
          /*-------------- count data------------------*/
            $aListCount = DB::table('follow_up_details')
+                            ->where('lead_id','=',$id)
                             ->orderBy('id','desc')
                             ->count();
          /*-------------- count data------------------*/
 
          /*-------------- get data------------------*/
            $aListData = DB::table('follow_up_details')
+                        ->where('lead_id','=',$id)
                         ->orderBy('id','desc')
                         ->paginate($iPerPagePagination);
 

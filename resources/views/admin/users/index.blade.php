@@ -15,9 +15,9 @@
 
           <div class="card-body">
 
-            <h4 class="card-title">Associates List</h4>
+            <h4 class="card-title">Calling Staff List</h4>
 
-            <button style="float: right;margin-top: -38px;border-radius: 6px;border-color: darkolivegreen;" data-toggle="modal" data-target="#myModal">Add New Associate</button>
+            <button style="float: right;margin-top: -38px;border-radius: 6px;border-color: darkolivegreen;" data-toggle="modal" data-target="#myModal">Add New Calling Staff</button>
 
             <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -84,9 +84,8 @@
 
             </div> -->
 
-            <div class="table-responsive">
+              <table class="table" id="example" data-ordering="false" class="display" style="width:100%">
 
-              <table class="table">
 
                 <thead>
 
@@ -137,6 +136,16 @@
     </div>
 
   </div>
+     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script>
+  //var db = new DataTable('#example');
+  $('#example').DataTable({
+    "bSort" : false
+});
+
+</script>
 
   <script>
 
@@ -237,5 +246,6 @@ function filterByStatus(filterStatus) {
     });
 
   </script>
+
 
 @endsection

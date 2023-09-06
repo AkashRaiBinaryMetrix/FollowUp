@@ -45,8 +45,7 @@ function toggle(source) {
 
             <div class="table-responsive">
 
-              <table class="table">
-
+<table class="table" id="example" data-ordering="false" class="display" style="width:100%">
                 <thead>
 
                   <tr>
@@ -114,7 +113,16 @@ function toggle(source) {
 
   </div>
 </form>
+ <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script>
+  //var db = new DataTable('#example');
+  $('#example').DataTable({
+    "bSort" : false
+});
 
+</script>
   <script>
 
            /*--------------------- filter by menu, category, sub category and status ------------------------- */
