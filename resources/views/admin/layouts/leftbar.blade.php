@@ -73,6 +73,31 @@
 
     <li class="nav-item" id="leftUsers">
 
+      <a class="nav-link" href="{{ url('admin/add-admin-property') }}">
+
+        <i class="fa fa-address-book"></i>
+
+        <span class="menu-title" style="margin: 5px;">Add Property</span>
+
+      </a>
+
+    </li>
+
+    <li class="nav-item" id="leftUsers">
+
+      <a class="nav-link" href="{{ url('admin/adminuser-myproperty') }}">
+
+        <i class="fa fa-address-book"></i>
+
+        <span class="menu-title" style="margin: 5px;">List Property</span>
+
+      </a>
+
+    </li>
+
+
+    <li class="nav-item" id="leftUsers">
+
       <a class="nav-link" href="{{ url('admin/add-plots') }}">
 
         <i class="fa fa-address-book"></i>

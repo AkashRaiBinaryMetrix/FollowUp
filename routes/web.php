@@ -278,8 +278,6 @@ Route::group(['middleware' => 'auth_user'],function () {
     Route::get('discover-groups-list', [Home::class, 'discoverGroupsList']);
 
     Route::get('group-detail/{id}', [Home::class, 'groupDetail']);
-
-    Route::get('edit-user-property/{id}', [Afterlogin::class, 'editUserProperty']);
     
     Route::get('view-user-property/{id}', [Afterlogin::class, 'viewUserProperty']);
 
@@ -343,6 +341,9 @@ Route::group(['middleware' => 'auth_admin'], function () {
 Route::get('/admin/dashboard', [Dashboard::class, 'index']);
 
 
+ Route::post('admin-listnewpropertyprocessadmin', [Users::class, 'listNewPropertyProcessAdmin'])->name('admin.listnewpropertyprocess');
+
+
 
      /*------------------ common route ----------------*/
 
@@ -378,6 +379,12 @@ Route::get('/admin/dashboard', [Dashboard::class, 'index']);
       Route::post('admin/assign-lead-toassociate', [Users::class, 'assignLeadToassociate']);
 
       Route::get('admin/view-assign-leads', [Users::class, 'viewAssignLeadToassociate']);
+
+      Route::get('admin/add-admin-property', [Users::class, 'addAdminProperty']);
+
+      Route::get('admin/adminuser-myproperty',[Users::class,'adminuserMyProperty']);
+
+      Route::get('admin/adminedit-user-property/{id}', [Users::class, 'editUserProperty']);
 
       Route::get('admin/viewfollowupdetails/{id}', [Users::class, 'viewfollowupDetails']);
 

@@ -726,31 +726,7 @@ class AfterLogin extends Controller
 
      }
 
-     function editUserProperty(Request $request, $id){
-        $iUserId = getLoggedInUserId();
-        $prop_id = $id;
-
-        //get user agent details
-        $profileDetails1 = DB::table('users')
-                              ->where('id',$iUserId)
-                              ->first();
-
-        //get user agent details
-        $getPropById     = DB::table('property_list')
-                              ->where('id',$prop_id)
-                              ->first(); 
-
-        unset($_FILES); 
-
-        //get house rules
-        $house_rules = DB::table('house_rules')->get();  
-        
-        $aDetail = DB::table('country_master')->get();
-
-        return view('myuser.inspirational_feed.user_myproperty_edit',['profileDetails1'=>$profileDetails1,
-            'getPropById' => $getPropById, 'house_rules' => $house_rules,'country_data' => $aDetail
-        ]);
-     }
+     
 
      function userEditPropertyProcess(Request $request){
         $iUserId = getLoggedInUserId();

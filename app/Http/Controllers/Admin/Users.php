@@ -249,6 +249,142 @@ class Users extends Controller
             'aTotalData'=>$aListCount,'aLists'=>$aListData]);
      }
 
+     public function addAdminProperty(Request $request){
+        //get house rules
+        $house_rules = DB::table('house_rules')->get();
+
+        return view('admin.property.addProperty',['house_rules' => $house_rules]);
+     }
+
+     public function listNewPropertyProcessAdmin(Request $request){
+        $iUserId = getLoggedInUserId();
+            //get form data
+            $property_title = $request->property_title;
+            $status         = $request->status;
+            $ptype          = $request->ptype;
+            $price          = $request->price;
+            $area           = $request->area;
+            $address        = $request->address;
+            $country        = $request->country;
+            $state          = $request->state;
+            $city           = $request->city;
+            $currency       = $request->currency;
+            $zipcode        = $request->zipcode;
+            $desc           = $request->desc;
+            $buildage       = $request->buildage;
+            $rooms          = $request->rooms;
+            $bath           = $request->bath;
+            $time_period    = $request->time_period;
+
+            $ameni          = $request->ameni;
+            $final_ameni    = implode(',',$ameni);
+            $property_for   = $request->property_for;
+            $cancellation   = $request->cancellation;
+
+            $house_rules    = $request->house_rules;
+
+            $property_type_other = $request->property_type_other;
+            $is_featured         = $request->is_featured; 
+
+            //insert data in table and get id
+            $aData = [
+                  "ameni" => $final_ameni,
+                  'property_title' => $property_title,
+                  'status'         => $status,
+                  'ptype'          => $ptype,
+                  'price'          => $price,
+                  'area'           => $area,
+                  'address'        => $address,
+                  'country'        => $country,
+                  'city'           => $city,
+                  'currency'       => $currency,
+                  'time_period'       => $time_period,
+                  'state'          => $state,
+                  'zipcode'        => $zipcode,
+                  'description'    => $desc,
+                  'buildage'       => $buildage,
+                  'rooms'          => $rooms,
+                  'bath'           => $bath,
+                  'user_id'        => $iUserId,
+                  'property_for'   => $property_for,
+                  'cancellation'   => $cancellation,
+                  'property_type_other' => $property_type_other,
+                  'is_featured'         => $is_featured
+            ];
+        
+            $iLastInsertedId = DB::table('property_list')->insertGetId($aData);
+
+            //insert house rules
+            foreach($house_rules as $rule_list){
+                $option_value = $rule_list;
+                $property_list_id = $iLastInsertedId;
+                $option_explode = explode('_', $option_value);
+
+                $aDataHouseRules = [
+                  "property_list_id" => $property_list_id,
+                  'house_rule_id'    => $option_explode[0],
+                  'option_value'     => $option_explode[1], 
+                ];
+        
+                DB::table('property_list_house_rules')->insertGetId($aDataHouseRules);
+            }
+
+            // Count # of uploaded files in array
+            $total = count($_FILES['upload']['name']);
+
+            // Loop through each file
+            for( $i=0 ; $i < $total ; $i++ ) {
+
+              //Get the temp file path
+              $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
+
+              //Make sure we have a file path
+              if ($tmpFilePath != ""){
+                //Setup our new file path
+                $newFilePath = public_path()."/property_images/" . $_FILES['upload']['name'][$i];
+
+                //Upload the file into the temp dir
+                if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+
+                  $file_array[] = $newFilePath;
+
+                }
+              }
+            }
+
+            //insert file details in the db
+            foreach($file_array as $furl){
+                    $aData1 = [
+                      "list_id" => $iLastInsertedId,
+                      "url"     => $furl
+                ];
+            
+                DB::table('property_list_images')->insert($aData1);
+            }
+
+            //get house rules
+            $house_rules = DB::table('house_rules')->get();
+
+            return view('admin.property.addProperty',['house_rules' => $house_rules]);
+     }
+
+      public function adminuserMyProperty(Request $request){
+        $iUserId = getLoggedInUserId();
+
+        // //get user agent details
+        // $profileDetails1 = DB::table('users')
+        //                       ->where('id',$iUserId)
+        //                       ->first();
+
+        //get property details
+        $propertyDetails = DB::table('property_list')
+                              //->where('user_id',$iUserId)
+                              ->orderBy('id', 'desc') 
+                              ->get();
+
+        return view('admin.property.user_myproperty',['propertyDetails'=>$propertyDetails]);
+     }
+
      public function viewfollowupDetails(Request $request, $id){
         /*---------------------- get per page paging record show ------------------------------*/
         $iPerPagePagination  = perPagePaging();
